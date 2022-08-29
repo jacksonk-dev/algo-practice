@@ -4,29 +4,27 @@ function mergeSorted(result, left, right) {
   let currentLIndex = 0
   let currentRIndex = 0
 
-  while (currentAIndex < A.length) {
-    while (currentLIndex < left.length && currentRIndex < right.length) {
-      if (left[currentLIndex] < right[currentRIndex]) {
-        A[currentAIndex] = left[currentLIndex]
-        currentLIndex++
-      } else {
-        A[currentAIndex] = right[currentRIndex]
-        currentRIndex++
-      }
-      currentAIndex++
-    }
-
-    while (currentLIndex < left.length) {
+  while (currentAIndex < A.length && currentLIndex < left.length && currentRIndex < right.length) {
+    if (left[currentLIndex] < right[currentRIndex]) {
       A[currentAIndex] = left[currentLIndex]
-      currentAIndex++
       currentLIndex++
-    }
-
-    while (currentRIndex < right.length) {
+    } else {
       A[currentAIndex] = right[currentRIndex]
-      currentAIndex++
       currentRIndex++
     }
+    currentAIndex++
+  }
+
+  while (currentAIndex < A.length && currentLIndex < left.length) {
+    A[currentAIndex] = left[currentLIndex]
+    currentAIndex++
+    currentLIndex++
+  }
+
+  while (currentAIndex < A.length && currentRIndex < right.length) {
+    A[currentAIndex] = right[currentRIndex]
+    currentAIndex++
+    currentRIndex++
   }
 
   return A
