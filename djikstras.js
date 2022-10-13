@@ -12,45 +12,48 @@ let graph = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
 const v = 9;
 
 function djikStra(graph, source) {
-  const distance = {};
-  const visited = {};
+  const shortestDistance = {};
+  const visitedVertices = {};
+  const shortestPath = {};
   for (let i = 0; i < v; i++) {
-    distance[i] = Infinity;
+    shortestDistance[i] = Infinity;
   }
 
-  distance[source] = 0;
-  visited[source] = true;
+  shortestDistance[source] = 0;
+  visitedVertices[source] = true;
+  shortestPath[source] = `${source}`;
 
   let currentNode = source;
-
   while (currentNode !== null) {
     for (let i = 0; i < v; i++) {
-      if (visited[i]) continue; //No need to update visited nodes
+      if (visitedVertices[i]) continue; //No need to update visitedVertices nodes
       if (graph[currentNode][i] === 0) continue; // Not connected to current node
 
-      const distCurrentNodeToI = distance[currentNode] + graph[currentNode][i];
+      const distCurrentNodeToI = shortestDistance[currentNode] + graph[currentNode][i];
 
-      if (distCurrentNodeToI < distance[i]) {
-        distance[i] = distCurrentNodeToI;
+      if (distCurrentNodeToI < shortestDistance[i]) {
+        shortestDistance[i] = distCurrentNodeToI;
+        shortestPath[i] = shortestPath[currentNode] + i;
       }
     }
 
     currentNode = null;
     let minDistance = Infinity;
-    Object.entries(distance).forEach(([node, dist]) => {
-      if (dist < minDistance && !visited[node]) {
+    Object.entries(shortestDistance).forEach(([node, dist]) => {
+      if (dist < minDistance && !visitedVertices[node]) {
         minDistance = dist;
         currentNode = node;
       }
     })
 
     if (currentNode !== null) {
-      visited[currentNode] = true;
+      visitedVertices[currentNode] = true;
     }
   }
 
-  console.log(distance);
-  return distance;
+  console.log(shortestDistance);
+  console.log(shortestPath);
+  return shortestDistance;
 }
 
 djikStra(graph, 0);
